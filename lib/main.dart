@@ -10,7 +10,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   int value = (prefs.getInt('firstTime') ?? 1);
-  print(value);
   runApp(MyApp(value));
 }
 

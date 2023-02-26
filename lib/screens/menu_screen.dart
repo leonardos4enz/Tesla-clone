@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:saenz/data/menu_data.dart';
 import 'package:saenz/screens/explore_screen.dart';
 import 'package:flutter/gestures.dart';
+import 'package:saenz/screens/start_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final List<String> fruits = ['Manzana', 'Banana', 'Cereza', 'Durazno', 'Frambuesa'];
 
@@ -13,6 +15,35 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  int value = 0;
+
+  // _loadValue() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     //print(prefs.getInt('firstTime'));
+  //     value = (prefs.getInt('firstTime') ?? 1);
+  //   });
+  // }
+
+  _saveValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('firstTime', 1);
+    //print(prefs.getInt('firstTime'));
+  }
+
+  void _resetFirstTime() {
+    setState(() {
+      value = 1;
+    });
+    _saveValue();
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _loadValue();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +70,7 @@ class _MenuScreenState extends State<MenuScreen> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuScreen()));
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuScreen()));
                 },
                 child: Container(
                   width: 120,
@@ -100,6 +131,55 @@ class _MenuScreenState extends State<MenuScreen> {
               itemCount: menuData.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
+                  onTap: () {
+                    if (menuData[index]['id'] != 5) {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => menuData[index]['route']));
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text(
+                              '¿Está seguro?',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            content: const Text(
+                              'Perderá sus ajustes y todos los datos almacenados.',
+                              style: TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0.0),
+                            ),
+                            backgroundColor: const Color.fromARGB(255, 53, 53, 53),
+                            contentPadding: const EdgeInsets.only(left: 20, top: 20),
+                            //buttonPadding: EdgeInsets.symmetric(horizontal: 20),
+                            actions: [
+                              TextButton(
+                                child: const Text(
+                                  'CANCELAR',
+                                  style: TextStyle(color: Color.fromARGB(255, 163, 163, 163)),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              TextButton(
+                                child: const Text(
+                                  'CERRAR SESIÓN',
+                                  style: TextStyle(color: Color.fromARGB(255, 163, 163, 163)),
+                                ),
+                                onPressed: () {
+                                  _resetFirstTime();
+                                  Navigator.pushReplacement(
+                                      context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  },
                   contentPadding: const EdgeInsets.symmetric(horizontal: 25),
                   leading: Icon(
                     menuData[index]['icon'],
@@ -112,7 +192,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                   title: Text(
                     menuData[index]['title'],
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 );
               },
@@ -122,7 +202,7 @@ class _MenuScreenState extends State<MenuScreen> {
           const Text(
             "4.17.5-1576 - 625ddcb31f",
             style: TextStyle(
-                color: Color.fromARGB(255, 68, 68, 68),
+                color: Color.fromARGB(255, 112, 112, 112),
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
                 fontFamily: 'SanFranciscoPro',
@@ -131,7 +211,7 @@ class _MenuScreenState extends State<MenuScreen> {
           const Text(
             "leonardorsaenz@gmail.com",
             style: TextStyle(
-                color: Color.fromARGB(255, 68, 68, 68),
+                color: Color.fromARGB(255, 112, 112, 112),
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
                 fontFamily: 'SanFranciscoPro',
@@ -143,7 +223,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 TextSpan(
                   text: "Agradecimientos",
                   style: const TextStyle(
-                    color: Color.fromARGB(255, 68, 68, 68),
+                    color: Color.fromARGB(255, 112, 112, 112),
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     fontFamily: 'SanFranciscoPro',
@@ -152,13 +232,14 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
+                      // ignore: avoid_print
                       print("Agradecimientos");
                     },
                 ),
                 const TextSpan(
                   text: " - ",
                   style: TextStyle(
-                    color: Color.fromARGB(255, 68, 68, 68),
+                    color: Color.fromARGB(255, 112, 112, 112),
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     fontFamily: 'SanFranciscoPro',
@@ -168,7 +249,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 TextSpan(
                   text: "Aviso de privacidad",
                   style: const TextStyle(
-                    color: Color.fromARGB(255, 68, 68, 68),
+                    color: Color.fromARGB(255, 112, 112, 112),
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     fontFamily: 'SanFranciscoPro',
@@ -177,6 +258,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
+                      // ignore: avoid_print
                       print("Aviso de privacidad");
                     },
                 ),

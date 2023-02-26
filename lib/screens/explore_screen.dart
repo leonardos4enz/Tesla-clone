@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:saenz/data/explore_data.dart';
 import 'package:saenz/screens/menu_screen.dart';
