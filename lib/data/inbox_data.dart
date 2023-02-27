@@ -11,6 +11,6 @@ List<Map<String, dynamic>> inboxData = [
     'date': DateTime(2023, 2, 26, 8, 15, 00),
     'title': 'Tesla llega a Nuevo León',
     'description':
-        'Queremos anunciar que nuestra llegada ahora es un hecho, instalaremos nuestra nueva planta en Santa Catarina, Nuevo León, México. Es un lugar lleno de oportunidades que no se debe desaprovechar. '
+        'Queremos anunciar que nuestra llegada ahora es un hecho, instalaremos nuestra nueva planta en Santa Catarina, Nuevo León, México. Es un lugar lleno de oportunidades, de personas nobles que no se debe desaprovechar. '
   },
 ];
